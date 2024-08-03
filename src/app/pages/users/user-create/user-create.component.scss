@@ -1,0 +1,21 @@
+.p-par {
+  display: flex;
+}
+.p-child {
+  display: inline-block;
+  width: 40vw;
+  margin-right: 3vw;
+}
+
+.btn-rad {
+  display: inline-block;
+  margin-right: 20px;
+  margin-top: 5px;
+}
+
+.sub-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

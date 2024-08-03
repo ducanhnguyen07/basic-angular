@@ -1,0 +1,69 @@
+<p-button icon="pi pi-plus" (click)="createProject()" />
+
+<br />
+<br />
+
+<div class="card">
+  <p-table
+    [value]="projects"
+    styleClass="p-datatable-sm"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name">
+          Name <p-sortIcon field="name" />
+        </th>
+        <th>Description</th>
+        <th pSortableColumn="budget">
+          Budget <p-sortIcon field="budget" />
+        </th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-project>
+      <tr>
+        <td>{{ project.name }}</td>
+        <td>{{ project.description }}</td>
+        <td>{{ project.budget }}$</td>
+        <td>
+          <ng-container [ngSwitch]="project.status">
+            <p-badge
+              *ngSwitchCase="'COMPLETED'"
+              [value]="'Completed'"
+              severity="success"
+            />
+            <p-badge
+              *ngSwitchCase="'INACTIVE'"
+              [value]="'Inactive'"
+              severity="warning"
+            />
+            <p-badge
+              *ngSwitchCase="'CANCELED'"
+              [value]="'Canceled'"
+              severity="danger"
+            />
+            <p-badge *ngSwitchDefault [value]="'Active'" severity="info" />
+          </ng-container>
+        </td>
+        <td>
+          <div class="btn-element">
+            <p-button
+              label="Edit"
+              size="small"
+              severity="warning"
+              (click)="editProject(project.id)"
+            />
+          </div>
+          <div class="btn-element">
+            <p-button label="Delete" size="small" severity="danger" />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

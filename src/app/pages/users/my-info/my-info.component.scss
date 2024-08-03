@@ -1,0 +1,36 @@
+.menu {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+img {
+  width: 60%;
+  height: 60%;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+}
+
+button {
+  margin-top: 2vh;
+}
+
+.wrapper {
+  display: inline-block;
+  margin-left: 2vw;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  padding: 10px 10px;
+  height: 400px;
+  width: 20vw;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 40vw;
+}
+
+.img {
+  text-align: center;
+}

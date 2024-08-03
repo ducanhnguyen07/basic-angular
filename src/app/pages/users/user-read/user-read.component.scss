@@ -1,0 +1,29 @@
+.toolbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.btn-group-left,
+.btn-group-right {
+  display: flex;
+}
+
+.btn-container {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-element {
+  display: inline-block;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+img {
+  width: 50px;
+  display: block;
+  border: 1px solid #ddd;
+  border-radius: 8%;
+}

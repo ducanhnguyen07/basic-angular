@@ -1,0 +1,110 @@
+<p-toast />
+<form (ngSubmit)="onSubmit()" #taskForm="ngForm">
+  <div class="p-fluid p-par">
+    <div class="p-fluid p-child">
+      <label for="projectList">Project</label>
+      <p-dropdown
+        [options]="projectList"
+        [formControl]="projectControl"
+        [(ngModel)]="newTask.projectId"
+        placeholder="Select a project"
+        optionLabel="name"
+        optionValue="id"
+        appendTo="body"
+        required
+      >
+        <ng-template let-project pTemplate="item">
+          {{ project.name }}
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <br />
+  
+    <div class="p-fluid p-child">
+      <label for="userList">User</label>
+      <p-dropdown
+        [options]="userList"
+        [formControl]="userControl"
+        [(ngModel)]="newTask.userId"
+        placeholder="Select an user"
+        optionLabel="name"
+        optionValue="id"
+        appendTo="body"
+        required
+      >
+        <ng-template let-user pTemplate="item">
+          {{ user.name }}
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </div>
+  <br />
+  <div class="p-fluid p-par">
+    <div class="p-child">
+      <label for="name">Name</label>
+      <input
+        pInputText
+        [(ngModel)]="newTask.name"
+        [value]="newTask.name"
+        name="name"
+        type="text"
+        aria-describedby="name-help"
+        required
+      />
+      <small id="name-help"> Enter task name. </small>
+    </div>
+    
+    <div class="p-child">
+      <label for="requirement">Requirement</label>
+      <p-floatLabel>
+        <p-calendar
+          [(ngModel)]="newTask.requirement"
+          [showIcon]="true"
+          [showOnFocus]="false"
+          name="requirement"
+          inputId="buttondisplay"
+          appendTo="body"
+        />
+      </p-floatLabel>
+    </div>
+  </div>
+  <br />
+
+  <div class="p-fluid">
+    <label for="status">Status</label>
+    <br />
+    <div class="btn-rad">
+      <p-radioButton
+        name="status"
+        value="0"
+        [(ngModel)]="newTask.status"
+        inputId="ingredient1"
+      />
+      <label for="ingredient1" class="ml-2"> Active </label>
+    </div>
+
+    <div class="btn-rad">
+      <p-radioButton
+        name="status"
+        value="1"
+        [(ngModel)]="newTask.status"
+        inputId="ingredient2"
+      />
+      <label for="ingredient2" class="ml-2"> Inactive </label>
+    </div>
+  </div>
+  <br />
+
+  <div class="p-fluid">
+    <label for="description">Description</label>
+    <p-editor name="description" [(ngModel)]="newTask.description" [style]="{ height: '150px' }" />
+  </div>
+  <br />
+  <br />
+
+  <div class="sub-btn-container">
+    <div class="sub-btn">
+      <p-button type="submit" label="Create" icon="pi pi-check" />
+    </div>
+  </div>
+</form>

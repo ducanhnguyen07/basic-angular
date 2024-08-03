@@ -1,0 +1,25 @@
+<div class="menu">
+  <div class="wrapper img">
+    <div><img src="{{ myInfo.avatar }}" alt="avatar" /></div>
+  
+    <br />
+
+    <div><b>{{ myInfo.name }}</b></div>
+
+    <br />
+    <br />
+    <br />
+    <app-upload-image></app-upload-image>
+  </div>
+  
+  <div class="wrapper content">
+    <div class="child"><b>Email</b>: {{ myInfo.email }}</div>
+    <br />
+    <div><b>Address</b>: {{ myInfo.address }}</div>
+    <br />
+    <div><b>Gender</b>: {{ myInfo.gender }}</div>
+    <br />
+    <div><b>Branch</b>: {{ myInfo.branch }}</div>
+  </div>
+  
+</div>

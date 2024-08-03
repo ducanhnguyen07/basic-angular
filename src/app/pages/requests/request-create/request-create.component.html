@@ -1,0 +1,80 @@
+<form (ngSubmit)="onSubmit()" #timesheetForm="ngForm">
+  <br />
+  <div class="p-fluid">
+    <p-dropdown
+      [options]="requestType"
+      [formControl]="typeControl"
+      [(ngModel)]="objType"
+      placeholder="RequestType"
+      appendTo="body"
+      required
+    >
+      <ng-template let-type pTemplate="item">
+        {{ type }}
+      </ng-template>
+    </p-dropdown>
+  </div>
+
+  <br />
+  <br />
+
+  <div class="p-fluid">
+    <p-floatLabel>
+      <input
+        pInputText
+        [(ngModel)]="newRequest.note"
+        [value]="newRequest.note"
+        name="note"
+        type="text"
+      />
+      <label for="note">Note</label>
+    </p-floatLabel>
+  </div>
+
+  <br />
+  <br />
+
+  <!-- <div class="p-fluid">
+    <p-floatLabel>
+      <p-calendar
+        class="p-fluid"
+        [(ngModel)]="newRequest.requestDay"
+        [showIcon]="true"
+        [showOnFocus]="false"
+        name="requestDay"
+        inputId="buttondisplay"
+        appendTo="body"
+      />
+      <label for="requestDay">RequestDay</label>
+    </p-floatLabel>
+  </div>
+
+  <br />
+  <br /> -->
+
+  <div class="p-fluid">
+    <p-floatLabel>
+      <p-inputNumber
+        [(ngModel)]="newRequest.time"
+        placeholder=""
+        [showButtons]="true"
+        inputId="time"
+        name="time"
+        [min]="0"
+        [max]="8"
+      />
+      <label for="time">Time*</label>
+    </p-floatLabel>
+  </div>
+
+  <br />
+
+  <div class="btn-sub">
+    <p-button
+      class="p-fluid"
+      type="submit"
+      label="Create new request"
+      icon="pi pi-check"
+    />
+  </div>
+</form>

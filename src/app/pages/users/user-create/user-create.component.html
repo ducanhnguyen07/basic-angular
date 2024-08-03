@@ -1,0 +1,144 @@
+<p-toast />
+
+<form
+  (ngSubmit)="onSubmit()" #userForm="ngForm"
+>
+  <div class="p-fluid p-par">
+    <div class="p-child ">
+      <label for="name">Name</label>
+      <input
+        pInputText
+        [(ngModel)]="newUser.name"
+        [value]="newUser.name"
+        name="name"
+        type="text"
+        aria-describedby="name-help"
+        required
+      />
+      <small id="name-help"> Enter your name. </small>
+    </div>
+    <br />
+    <div class="p-child">
+      <label for="email">Email</label>
+      <input
+        pInputText
+        [(ngModel)]="newUser.email"
+        [value]="newUser.email"
+        name="email"
+        type="text"
+        aria-describedby="email-help"
+        required
+      />
+      <small id="email-help"> Enter your email. </small>
+    </div>
+    <br />
+  </div>
+
+  <br />
+
+  <div class="p-fluid p-par">
+    <div class="p-child ">
+      <label for="password">Password</label>
+      <p-password
+        [(ngModel)]="newUser.password"
+        name="password"
+        aria-describedby="password-help"
+        [toggleMask]="true"
+        [feedback]="true"
+        required
+      />
+      <small id="password-help"> Enter your password. </small>
+    </div>
+    <br />
+    <div class="p-child ">
+      <label for="name">Address</label>
+      <input
+        pInputText
+        [(ngModel)]="newUser.address"
+        [value]="newUser.address"
+        name="email"
+        type="text"
+        aria-describedby="email-help"
+        required
+      />
+      <small id="email-help"> Enter your address. </small>
+    </div>
+  </div>
+  
+  <br />
+
+  <div class="p-fluid">
+    <label for="gender">Gender</label>
+    <br />
+    <div class="btn-rad">
+      <p-radioButton
+        name="gender"
+        value="male"
+        [(ngModel)]="newUser.gender"
+        [ariaChecked]="true"
+        inputId="ingredient1"
+      />
+      <label for="ingredient1" class="ml-2"> Male </label>
+    </div>
+
+    <div class="btn-rad">
+      <p-radioButton
+        name="gender"
+        value="female"
+        [(ngModel)]="newUser.gender"
+        inputId="ingredient2"
+      />
+      <label for="ingredient2" class="ml-2"> Female </label>
+    </div>
+  </div>
+
+  <br />
+
+  <div class="p-fluid p-par">
+    <div class="p-fluid p-child">
+      <label for="branchList">Project</label>
+      <p-dropdown
+        [options]="branchList"
+        [formControl]="branchControl"
+        [(ngModel)]="newUser.branch"
+        placeholder="Select a branch"
+        optionLabel="name"
+        optionValue="id"
+        appendTo="body"
+        required
+      >
+        <ng-template let-branch pTemplate="item">
+          {{ branch.name }}
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <br />
+  
+    <div class="p-fluid p-child">
+      <label for="roleList">Role</label>
+      <p-dropdown
+        [options]="roleList"
+        [formControl]="roleControl"
+        [(ngModel)]="newUser.role"
+        placeholder="Select role"
+        optionLabel="name"
+        optionValue="id"
+        appendTo="body"
+        required
+      >
+        <ng-template let-role pTemplate="item">
+          {{ role.name }}
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </div>
+
+  <br />
+  <br />
+
+  <div class="sub-btn-container">
+    <div class="sub-btn">
+      <p-button type="submit" label="Create" icon="pi pi-check" />
+    </div>
+  </div>
+</form>

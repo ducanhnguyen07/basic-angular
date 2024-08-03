@@ -1,0 +1,40 @@
+<div class="grid">
+  <div class="col-4">
+    <div class="card">
+      <form
+        #frm1="ngForm"
+        class="login-form col-4 m-auto p-2"
+        (ngSubmit)="handleLogin(frm1.value)"
+      >
+        <div class="lbl-login">Login</div>
+
+        <br />
+        <br />
+
+        <p-floatLabel>
+          <input pInputText ngModel id="em" name="em" type="email" />
+          <label for="em">Email</label>
+        </p-floatLabel>
+
+        <br />
+        <br />
+
+        <p-floatLabel>
+          <p-password
+            ngModel
+            name="pw"
+            [toggleMask]="true"
+            [feedback]="false"
+          />
+          <label for="pw">Password</label>
+        </p-floatLabel>
+        <br />
+        <br />
+
+        <div>
+          <p-button label="Login" type="submit" />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

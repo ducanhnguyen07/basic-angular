@@ -1,0 +1,17 @@
+<div class="sider">
+  <div class="inner-menu">
+    <p-scrollPanel [style]="{ width: '100%', height: 'calc(80vh)' }">
+      <p-tree
+        [value]="sidebarTree"
+        selectionMode="single"
+        [(selection)]="selectedFile"
+        (onNodeSelect)="nodeSelect($event)"
+      >
+      </p-tree>
+    </p-scrollPanel>
+  </div>
+
+  <div class="inner-drop footer-sidebar">
+    <div>© By <b>Angular</b> + <b>PrimeNG</b> + <b>Angular Material</b></div>
+  </div>
+</div>

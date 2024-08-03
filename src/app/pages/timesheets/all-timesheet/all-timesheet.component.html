@@ -1,0 +1,96 @@
+<p-toast />
+<div class="card">
+  <p-table
+    [value]="data"
+    styleClass="p-datatable-sm"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="timesheet.note">
+          Note <p-sortIcon field="timesheet.note" />
+        </th>
+        <th pSortableColumn="timesheet.workingTime">
+          Working time <p-sortIcon field="timesheet.workingTime" />
+        </th>
+        <th>Status</th>
+        <th pSortableColumn="user.name">
+          User <p-sortIcon field="user.name" />
+        </th>
+        <th pSortableColumn="task.name">
+          Task <p-sortIcon field="task.name" />
+        </th>
+        <th pSortableColumn="project.name">
+          Project <p-sortIcon field="project.name" />
+        </th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-timesheetList>
+      <tr>
+        <td>{{ timesheetList.timesheet.note }}</td>
+        <td>{{ timesheetList.timesheet.workingTime }}</td>
+        <td>
+          <ng-container [ngSwitch]="timesheetList.timesheet.status">
+            <p-badge
+              *ngSwitchCase="'APPROVE'"
+              [value]="'Approved'"
+              severity="success"
+            />
+            <p-badge
+              *ngSwitchCase="'PENDING'"
+              [value]="'Pending'"
+              severity="info"
+            />
+            <p-badge *ngSwitchDefault [value]="'Rejected'" severity="danger" />
+          </ng-container>
+        </td>
+        <td>{{ timesheetList.user.name }}</td>
+        <td>{{ timesheetList.task.name }}</td>
+        <td>{{ timesheetList.project.name }}</td>
+        <td>
+          <p-button
+            class="p-btn"
+            *ngIf="timesheetList.timesheet.status === 'REJECT'"
+            label="Rejected"
+            [disabled]="true"
+            severity="secondary"
+            size="small"
+          />
+
+          <p-button
+            *ngIf="timesheetList.timesheet.status === 'APPROVE'"
+            label="Approved"
+            [disabled]="true"
+            size="small"
+          />
+
+          <div class="btn-element">
+            <p-button
+              *ngIf="timesheetList.timesheet.status === 'PENDING'"
+              icon="pi pi-check"
+              [rounded]="true"
+              size="small"
+              (onClick)="approveTimesheet(timesheetList.timesheet.id)"
+            />
+          </div>
+
+          <div class="btn-element">
+            <p-button
+              *ngIf="timesheetList.timesheet.status === 'PENDING'"
+              icon="pi pi-times"
+              [rounded]="true"
+              size="small"
+              severity="danger"
+              (onClick)="rejectTimesheet(timesheetList.timesheet.id)"
+            />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,0 +1,192 @@
+<!-- <table class="table table-hover table-sm" checkbox-multi>
+  <thead>
+    <tr>
+      <th><input type="checkbox" name="checkall" /></th>
+      <th>STT</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Requirement</th>
+      <th>Status</th>
+      <th>Project</th>
+      <th>User</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container>
+      <tr *ngFor="let task of taskList; let index = index">
+        <td><input type="checkbox" name="id" [value]="task.id" /></td>
+        <td>{{ index + 1 }}</td>
+        <td>{{ task.name }}</td>
+        <td>{{ task.description }}</td>
+        <td>{{ task.requirement }}</td>
+        <td>
+          <span
+            *ngIf="task.status === 0; else inactive"
+            class="badge badge-success"
+            >Active</span
+          >
+          <ng-template #inactive
+            ><span class="badge badge-danger">Inactive</span></ng-template
+          >
+        </td>
+        <td>{{ task.project.name }}</td>
+        <td>{{ task.user.name }}</td>
+
+        <td>
+          <a class="btn btn-warning btn-sm" (click)="editTask(task.id)"> Edit </a>
+          <a class="btn btn-danger btn-sm ml-1">Delete</a>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table> -->
+
+<div class="card">
+  <p-table
+    #dt2
+    [value]="taskList"
+    styleClass="p-datatable-sm"
+    paginator="true"
+    [rows]="5"
+    [globalFilterFields]="['name']"
+    [tableStyle]="{ 'min-width': '50rem', width: '100%', 'overflow-x': 'auto', 'overflow-y': 'auto' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template pTemplate="caption">
+      <div class="caption-container">
+        <div class="flex elm-tbl">
+          <p-iconField iconPosition="left" class="ml-auto">
+            <p-inputIcon>
+              <i class="pi pi-search"></i>
+            </p-inputIcon>
+            <input
+              pInputText
+              type="text"
+              (input)="dt2.filterGlobal($any($event.target).value, 'contains')"
+              placeholder="Search by task name"
+            />
+          </p-iconField>
+        </div>
+
+        <div class="flex elm-tbl">
+          <p-button icon="pi pi-plus" (click)="createTask()" size="small"/>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name" style="min-width: 12rem">
+          Name <p-sortIcon field="name" />
+        </th>
+        <th style="min-width: 12rem">Description</th>
+        <th pSortableColumn="requirement" style="min-width: 12rem">
+          Requirement <p-sortIcon field="requirement" />
+        </th>
+        <th style="min-width: 5rem">Status</th>
+        <th pSortableColumn="project.name" style="min-width: 12rem">
+          Project <p-sortIcon field="project.name" />
+        </th>
+        <th pSortableColumn="user.name" style="min-width: 12rem">
+          User <p-sortIcon field="user.name" />
+        </th>
+        <th style="min-width: 12rem">Action</th>
+      </tr>
+
+      <tr>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="name"
+            placeholder="Name"
+            ariaLabel="Filter Name"
+          />
+        </th>
+        <th></th>
+        <th>
+          <i class="pi pi-calendar-clock" style="font-size: 1.3rem"></i>
+          <p-columnFilter
+            type="date"
+            field="requirement"
+            ariaLabel="Filter Name"
+            display="menu"
+          />
+        </th>
+
+        <th>
+          <p-columnFilter field="status" matchMode="equals" [showMenu]="false">
+            <ng-template
+              pTemplate="filter"
+              let-value
+              let-filter="filterCallback"
+            >
+              <p-dropdown
+                [options]="statuses"
+                (onChange)="filter($event.value)"
+                placeholder="Select One"
+                [showClear]="true"
+                appendTo="body"
+              >
+                <ng-template let-option pTemplate="item">
+                  <p-tag
+                    [value]="option.label"
+                    [severity]="getSeverity(option.value)"
+                  />
+                </ng-template>
+              </p-dropdown>
+            </ng-template>
+          </p-columnFilter>
+        </th>
+
+        <th>
+          <p-columnFilter
+            type="text"
+            field="project.name"
+            placeholder="Project"
+            ariaLabel="Filter Name"
+          />
+        </th>
+        <th>
+          <p-columnFilter
+            type="text"
+            field="user.name"
+            placeholder="User"
+            ariaLabel="Filter Name"
+          />
+        </th>
+        <th></th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-task>
+      <tr>
+        <td>{{ task.name }}</td>
+        <td [innerHTML]="task.description"></td>
+        <td>{{ task.requirement | date : "MM/dd/yyyy" }}</td>
+        <td>
+          <ng-container [ngSwitch]="task.status">
+            <p-tag *ngSwitchCase="0" [value]="'Active'" severity="info" />
+
+            <p-tag *ngSwitchDefault [value]="'Inactive'" severity="danger" />
+          </ng-container>
+        </td>
+        <td>{{ task.project.name }}</td>
+        <td>{{ task.user.name }}</td>
+        <td>
+          <div class="btn-element">
+            <p-button
+              label="Edit"
+              size="small"
+              severity="warning"
+              (click)="editTask(task.id)"
+            />
+          </div>
+          <div class="btn-element">
+            <p-button label="Delete" size="small" severity="danger" />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,0 +1,122 @@
+<p-toast />
+<div class="card">
+  <p-table
+    [value]="data"
+    styleClass="p-datatable-sm"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="note">
+          Note <p-sortIcon field="note" />
+        </th>
+        <th>Type</th>
+        <th pSortableColumn="requestDay">
+          Request day <p-sortIcon field="requestDay" />
+        </th>
+        <th pSortableColumn="time">
+          Time <p-sortIcon field="time" />
+        </th>
+        <th>Status</th>
+        <th pSortableColumn="user.name">
+          User <p-sortIcon field="user.name" />
+        </th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-request>
+      <tr>
+        <td>{{ request.note }}</td>
+        <td>
+          <ng-container [ngSwitch]="request.type">
+            <p-badge
+              *ngSwitchCase="0"
+              [value]="'OFF'"
+              severity="danger"
+            />
+            <p-badge
+              *ngSwitchCase="1"
+              [value]="'REMOTE'"
+              severity="danger"
+            />
+            <p-badge
+              *ngSwitchCase="2"
+              [value]="'ONSITE'"
+              severity="danger"
+            />
+            <p-badge
+              *ngSwitchCase="3"
+              [value]="'LATE'"
+              severity="danger"
+            />
+            <p-badge
+              *ngSwitchDefault
+              [value]="'EARLY'"
+              severity="danger"
+            />
+          </ng-container>
+        </td>
+        <td>{{ request.requestDay }}</td>
+        <td>{{ request.time }}</td>
+        <td>
+          <ng-container [ngSwitch]="request.status">
+            <p-badge
+              *ngSwitchCase="1"
+              [value]="'Approved'"
+              severity="success"
+            />
+            <p-badge
+              *ngSwitchCase="0"
+              [value]="'Pending'"
+              severity="info"
+            />
+            <p-badge *ngSwitchDefault [value]="'Rejected'" severity="danger" />
+          </ng-container>
+        </td>
+        <td>{{ request.user.name }}</td>
+        <td>
+          <p-button
+            class="p-btn"
+            *ngIf="request.status === 2"
+            label="Rejected"
+            [disabled]="true"
+            severity="secondary"
+            size="small"
+          />
+
+          <p-button
+            *ngIf="request.status === 1"
+            label="Approved"
+            [disabled]="true"
+            size="small"
+          />
+
+          <div class="btn-element">
+            <p-button
+              *ngIf="request.status === 0"
+              icon="pi pi-check"
+              [rounded]="true"
+              size="small"
+              (onClick)="approveRequest(request.id)"
+            />
+          </div>
+
+          <div class="btn-element">
+            <p-button
+              *ngIf="request.status === 0"
+              icon="pi pi-times"
+              [rounded]="true"
+              size="small"
+              severity="danger"
+              (onClick)="rejectRequest(request.id)"
+            />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

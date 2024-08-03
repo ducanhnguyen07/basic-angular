@@ -1,0 +1,53 @@
+.card {
+  border-radius: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+}
+
+::ng-deep .cal-month-view .cal-cell-row {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+::ng-deep .cal-cell-top {
+  color: black;
+  font-size: smaller;
+}
+
+::ng-deep .cal-cell-top .p-tag {
+  margin: 0px 5px;
+}
+
+::ng-deep .cal-cell-top .cal-day-number {
+  font-size: small !important;
+}
+
+::ng-deep .cal-cell-top .p-tag .p-tag-value {
+  line-height: 0.6;
+  font-weight: 600;
+}
+
+::ng-deep .cal-cell-top .status-tag {
+  position: relative;
+  top: 0;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  line-height: 1rem;
+  display: block;
+}
+
+.off-sunday {
+  background-color: #ACACAC;
+  cursor: pointer;
+}
+
+.off-sunday:hover {
+  background-color: #BCBCBC;
+}
+
+::ng-deep .cal-day-badge {
+  display: none !important;
+}
+
+::ng-deep .cal-month-view .cal-day-cell .cal-today .cal-day-number {
+  font-size: medium;
+}

@@ -1,0 +1,10 @@
+<nav>
+  <ul class="pagination">
+    <li *ngFor="let page of createRange(pagination.totalPage); let i = index"
+      [ngClass]="{'page-item': true, 'active': pagination.currentPage === page}">
+      <button class="page-link" (click)="handlePagination(page, i)">
+        {{ page }}
+      </button>
+    </li>
+  </ul>
+</nav>

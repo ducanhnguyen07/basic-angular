@@ -1,0 +1,129 @@
+<p-toast />
+
+<p-toolbar>
+  <div class="toolbar-content">
+    <div class="btn-group-left">
+      <div class="btn-container">
+        <div class="sub-btn-container">
+          <p-button
+            label="New"
+            icon="pi pi-plus"
+            severity="success"
+            (onClick)="createUser()"
+          ></p-button>
+        </div>
+        <div class="sub-btn-container">
+          <p-button
+            label="Delete"
+            icon="pi pi-trash"
+            severity="danger"
+          ></p-button>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group-right">
+      <div class="btn-container">
+        <div class="sub-btn-container">
+          <app-import-excel
+            (uploadComplete)="onUploadComplete()"
+          ></app-import-excel>
+        </div>
+        <div class="sub-btn-container">
+          <app-export-excel></app-export-excel>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-toolbar>
+
+<!-- <table class="table table-hover table-sm" checkbox-multi>
+  <thead>
+    <tr>
+      <th><input type="checkbox" name="checkall" /></th>
+      <th>STT</th>
+      <th>Avatar</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Gender</th>
+      <th>Branch</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users; let index = index">
+      <td><input type="checkbox" name="id" [value]="user.id" /></td>
+      <td>{{ index + 1 }}</td>
+      <td>
+        <img [src]="user.avatar" alt="avatar" width="100px" height="auto" />
+      </td>
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.address }}</td>
+      <td>{{ user.gender }}</td>
+      <td>{{ user.branch }}</td>
+      <td>
+        <a class="btn btn-warning btn-sm" (click)="editUser(user.id)"> Edit </a>
+        <a class="btn btn-danger btn-sm ml-1">Delete</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<app-pagination (urlChange)="handleUrlChange($event)"></app-pagination> -->
+
+<div class="card">
+  <p-table
+    [value]="users"
+    styleClass="p-datatable-sm"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Avatar</th>
+        <th pSortableColumn="name">
+          Name <p-sortIcon field="name" />
+        </th>
+        <th pSortableColumn="email">
+          Email <p-sortIcon field="email" />
+        </th>
+        <th pSortableColumn="address" style="min-width: 10rem">
+          Address <p-sortIcon field="address" />
+        </th>
+        <th>Gender</th>
+        <th>Branch</th>
+        <th style="min-width: 12rem">Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td style="line-height: 1rem">
+          <img [src]="user.avatar" alt="avatar" width="100px" height="auto" />
+        </td>
+        <td style="line-height: 1rem">{{ user.name }}</td>
+        <td style="line-height: 1rem">{{ user.email }}</td>
+        <td style="line-height: 1rem">{{ user.address }}</td>
+        <td style="line-height: 1rem">{{ user.gender }}</td>
+        <td style="line-height: 1rem">{{ user.branch }}</td>
+
+        <td style="line-height: 1rem">
+          <div class="btn-element">
+            <p-button
+              label="Edit"
+              size="small"
+              severity="warning"
+              (click)="editUser(user.id)"
+            />
+          </div>
+          <div class="btn-element">
+            <p-button label="Delete" size="small" severity="danger" />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

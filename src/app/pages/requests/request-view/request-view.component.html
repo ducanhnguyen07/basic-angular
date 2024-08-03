@@ -1,0 +1,97 @@
+<p-toast />
+
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
+  <div class="cal-cell-top"
+    [ngClass]="{'off-sunday': isSunday(day.date)}"
+  > 
+    <div>
+      <span class="cal-day-number">{{
+        day.date | calendarDate : "monthViewDayNumber" : locale
+      }}</span>
+    </div>
+
+    <ng-container *ngIf="isSunday(day.date)">
+      <div>
+        <p-tag value="Off" severity="danger" [rounded]="true"/>
+      </div>
+    </ng-container>
+
+    <ng-container *ngFor="let request of requestsPerMonth">      
+      <ng-container *ngIf="isSameDay(request.requestDay, day.date)">
+        <div>
+          <p-tag [value]="request.type" severity="danger" [rounded]="true" *ngIf="request.type === 'Off'" />
+
+          <p-tag [value]="request.type + ': ' + request.time + 'h'" severity="warning" [rounded]="true" *ngIf="request.type === 'Late' || request.type === 'Early'" />
+
+          <p-tag [value]="request.type + ': ' + request.time + 'h'" severity="info" [rounded]="true" *ngIf="request.type === 'Remote' || request.type === 'Onsite'" />
+
+          <ng-container [ngSwitch]="request.status">
+            <span class="status-tag" *ngSwitchCase="'APPROVE'">Approved</span>
+
+            <span class="status-tag" *ngSwitchCase="'PENDING'">Pending</span>
+
+            <span class="status-tag" *ngSwitchDefault>Rejected</span>
+          </ng-container>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+
+<div class="card">
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="events"
+    (dayClicked)="handleClick($event.day.date)"
+    [cellTemplate]="customCellTemplate"
+  >
+  </mwl-calendar-month-view>
+</div>
+
+<div class="card">
+  <p-table
+    [value]="data"
+    styleClass="p-datatable-sm"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="note">Note <p-sortIcon field="note" /></th>
+        <th>Type</th>
+        <th pSortableColumn="requestDay">
+          Request day <p-sortIcon field="requestDay" />
+        </th>
+        <th pSortableColumn="time">Time <p-sortIcon field="time" /></th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-request>
+      <tr>
+        <td>{{ request.note }}</td>
+        <td>
+          <p-badge [value]="request.type" severity="danger" />
+        </td>
+        <td>{{ request.requestDay }}</td>
+        <td>{{ request.time }}</td>
+        <td>
+          <ng-container [ngSwitch]="request.status">
+            <p-badge
+              *ngSwitchCase="'APPROVE'"
+              [value]="'Approved'"
+              severity="success"
+            />
+            <p-badge
+              *ngSwitchCase="'PENDING'"
+              [value]="'Pending'"
+              severity="info"
+            />
+            <p-badge *ngSwitchDefault [value]="'Rejected'" severity="danger" />
+          </ng-container>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

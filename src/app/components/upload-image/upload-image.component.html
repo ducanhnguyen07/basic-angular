@@ -1,0 +1,29 @@
+<!-- <form action="post">
+  <div class="title form-group"><b>Upload avatar</b></div>
+  <div class="form-group">
+    <input
+      #file
+      type="file"
+      accept="image/*"
+      (change)="onFileSelected($event)"
+    />
+  </div>
+  <div class="form-group">
+    <img src="{{ imageUrl }}" alt="" class="img-preview" />
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary" type="submit" (click)="processFile(file)">
+      Submit
+    </button>
+  </div>
+</form> -->
+<p-fileUpload
+  mode="basic"
+  chooseLabel="Choose"
+  chooseIcon="pi pi-upload"
+  name="file"
+  url="http://localhost:3000/v1/users/upload-avatar"
+  accept="image/*"
+  maxFileSize="1000000"
+  (onUpload)="onUpload($event)"
+/>

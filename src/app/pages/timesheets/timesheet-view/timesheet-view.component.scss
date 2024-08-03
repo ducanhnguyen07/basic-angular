@@ -1,0 +1,88 @@
+.btn-element {
+  display: inline-block;
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.wt-tag {
+  color: var(--color-three);
+}
+
+.ts-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mat-wrapper {
+  width: 900px;
+}
+
+::ng-deep .mdc-tab {
+  width: 120px;
+} 
+
+::ng-deep .mat-mdc-tab-body-content {
+  padding: 0px 20px;
+}
+
+::ng-deep .mat-mdc-tab-body-content .mat-content {
+  display: flex;
+  align-items: center;
+  justify-content: baseline;
+  height: 70px;
+  margin-bottom: 10px;
+}
+
+::ng-deep .mat-mdc-tab-body-content .mat-content:hover {
+  background-color: #F5F5F5;
+}
+::ng-deep .mat-mdc-tab-body-content .mat-content .mat-content-text {
+  width: 60vw;
+}
+::ng-deep .mat-mdc-tab-body-content .mat-content .mat-wt-tag {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+}
+
+::ng-deep .mat-mdc-tab-body-content .mat-content .mat-wt-tag .mat-wt-child{
+  padding: 0px 20px;
+}
+
+::ng-deep .mat-mdc-tab-body-content .mat-content .mat-btn {
+  display: flex;
+  align-items: center;
+  padding-left: 100px;
+}
+
+::ng-deep .mat-mdc-tab-body-content .mat-content .mat-btn .mat-btn-child {
+  padding: 0px 10px;
+}
+
+::ng-deep .mat-mdc-tab-body-content .mat-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 5px;
+}
+
+.some-custom-class-name::ng-deep th, 
+.some-custom-class-name::ng-deep td {
+  border-width: 1.2px !important;
+  border-color: #EBEBEB;
+}
+
+.some-custom-class-name::ng-deep th {
+  background-color: #A5CDE0 !important;
+  line-height: 0.9rem !important;
+  font-weight: 650 !important;
+  font-size: small !important;
+}
+
+.some-custom-class-name::ng-deep td {
+  line-height: 5rem !important;
+  background-color: #FDF7BB;
+  font-weight: 400 !important;
+}
+

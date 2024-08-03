@@ -1,0 +1,192 @@
+<p-toast />
+
+<p-panel header="{{ currDate }}">
+  <div class="ts-wrapper">
+    <div class="mat-wrapper">
+      <mat-tab-group>
+        <mat-tab *ngFor="let day of dayOfWeek" [label]="day.day">
+          <div class="mat-content">
+            <div class="mat-content-text">
+              Content for {{ day.day }} (Day {{ day.dayNum }})
+            </div>
+
+            <div class="mat-wt-tag">
+              <div class="mat-wt-child">08:00</div>
+              <div class="mat-wt-child">
+                <p-badge [value]="'Pending'" severity="secondary" />
+              </div>
+            </div>
+
+            <div class="mat-btn">
+              <div class="mat-btn-child">
+                <i class="pi pi-pencil" style="font-size: 1.2rem"></i>
+              </div>
+              <div class="mat-btn-child">
+                <i class="pi pi-trash" style="font-size: 1.2rem"> </i>
+              </div>
+            </div>
+          </div>
+          <div class="mat-body">
+            <div>
+              <p-button
+                icon="pi pi-plus"
+                size="small"
+                severity="success"
+                (click)="showDialog()"
+              />
+            </div>
+
+            <div>
+              <p-button
+                label="Submit Week for Approval"
+                size="small"
+                severity="success"
+              />
+            </div>
+          </div>
+        </mat-tab>
+
+        <mat-tab label="Total: {{ workingTime }}">
+          <div class="mat-body">
+            <div>
+              <p-button
+                icon="pi pi-plus"
+                size="small"
+                severity="success"
+                (click)="showDialog()"
+              />
+            </div>
+
+            <div>
+              <p-button
+                label="Submit Week for Approval"
+                size="small"
+                severity="success"
+              />
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</p-panel>
+<br />
+
+<p-panel header="Summary">
+  <p-table
+    [value]="[workingTime]"
+    styleClass="p-datatable-gridlines"
+    [scrollable]="true"
+    class="some-custom-class-name"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pFrozenColumn>Total</th>
+        <th pFrozenColumn>Open Talk</th>
+        <th *ngFor="let item of monthVal" style="max-width: 60px; text-align: center;" >
+          <div>{{ item.date }}</div>
+          <div>{{ item.dOW }}</div>
+        </th>
+      </tr>
+    </ng-template>
+    
+    <ng-template pTemplate="body" style="text-align: center;">
+      <tr>
+        <td pFrozenColumn style="background-color: #A5CDE0;">{{ workingTime }}</td>
+        <td pFrozenColumn style="background-color: #A5CDE0;">0</td>
+        <td  *ngFor="let item of monthVal" style="text-align: center;"></td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-panel>
+
+<br />
+
+<div class="card">
+  <p-table
+    [value]="data"
+    styleClass="p-datatable-sm"
+    [paginator]="true"
+    [rows]="5"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[5, 10, 20]"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="timesheet.note">
+          Note <p-sortIcon field="timesheet.note" />
+        </th>
+        <th pSortableColumn="timesheet.workingTime">
+          Working time <p-sortIcon field="timesheet.workingTime" />
+        </th>
+        <th>Status</th>
+        <th pSortableColumn="task.name">
+          Task <p-sortIcon field="task.name" />
+        </th>
+        <th pSortableColumn="project.name">
+          Project <p-sortIcon field="project.name" />
+        </th>
+        <th>Action</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-data>
+      <tr>
+        <td>{{ data.timesheet.note }}</td>
+        <td>{{ data.timesheet.workingTime }}</td>
+        <td>
+          <ng-container [ngSwitch]="data.timesheet.status">
+            <p-badge
+              *ngSwitchCase="'APPROVE'"
+              [value]="'Approved'"
+              severity="success"
+            />
+            <p-badge
+              *ngSwitchCase="'PENDING'"
+              [value]="'Pending'"
+              severity="info"
+            />
+            <p-badge *ngSwitchDefault [value]="'Rejected'" severity="danger" />
+          </ng-container>
+        </td>
+        <td>{{ data.task.name }}</td>
+        <td>{{ data.project.name }}</td>
+        <td>
+          <p-button
+            *ngIf="data.timesheet.status === 'APPROVE'"
+            label="Approved"
+            size="small"
+            severity="info"
+            [disabled]="true"
+          />
+
+          <p-button
+            *ngIf="data.timesheet.status === 'REJECT'"
+            label="Rejected"
+            size="small"
+            severity="secondary"
+            [disabled]="true"
+          />
+
+          <div class="btn-element">
+            <p-button
+              *ngIf="data.timesheet.status === 'PENDING'"
+              label="Edit"
+              size="small"
+              severity="warning"
+              (click)="editTimesheet(data.timesheet.id)"
+            />
+          </div>
+
+          <div class="btn-element">
+            <p-button
+              *ngIf="data.timesheet.status === 'PENDING'"
+              label="Delete"
+              size="small"
+              severity="danger"
+            />
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,0 +1,104 @@
+<p-toast />
+
+<form (ngSubmit)="onSubmit()" #userForm="ngForm">
+  <div class="p-fluid p-par">
+    <div class="p-child">
+      <label for="name">Name</label>
+      <input
+        pInputText
+        [(ngModel)]="editUser.name"
+        [value]="editUser.name"
+        name="name"
+        type="text"
+        aria-describedby="name-help"
+        required
+      />
+      <small id="name-help"> Enter your name. </small>
+      <br />
+    </div>
+    <div class="p-child">
+      <label for="email">Email</label>
+      <input
+        pInputText
+        [(ngModel)]="editUser.email"
+        [value]="editUser.email"
+        name="email"
+        type="text"
+        aria-describedby="email-help"
+        required
+      />
+      <small id="email-help"> Enter your email. </small>
+    </div>
+  </div>
+  <br />
+  <br />
+
+  <div class="p-fluid p-par">
+    <div class="p-child">
+      <label for="name">Address</label>
+      <input
+        pInputText
+        [(ngModel)]="editUser.address"
+        [value]="editUser.address"
+        name="email"
+        type="text"
+        aria-describedby="email-help"
+        required
+      />
+      <small id="email-help"> Enter your address. </small>
+    </div>
+
+    <div class="p-fluid p-child">
+      <label for="branchList">Project</label>
+      <p-dropdown
+        [options]="branchList"
+        [(ngModel)]="branchName"
+        [formControl]="branchControl"
+        placeholder="Select a branch"
+        optionLabel="name"
+        optionValue="name"
+        appendTo="body"
+        required
+      >
+        <ng-template let-branch pTemplate="item">
+          {{ branch.name }}
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </div>
+  <br />
+  <br />
+
+  <div class="p-fluid">
+    <label for="gender">Gender</label>
+    <br />
+    <div class="btn-rad">
+      <p-radioButton
+        name="gender"
+        value="male"
+        [(ngModel)]="editUser.gender"
+        [ariaChecked]="true"
+        inputId="ingredient1"
+      />
+      <label for="ingredient1" class="ml-2"> Male </label>
+    </div>
+
+    <div class="btn-rad">
+      <p-radioButton
+        name="gender"
+        value="female"
+        [(ngModel)]="editUser.gender"
+        inputId="ingredient2"
+      />
+      <label for="ingredient2" class="ml-2"> Female </label>
+    </div>
+  </div>
+  <br />
+  <br />
+
+  <div class="sub-btn-container">
+    <div class="sub-btn">
+      <p-button type="submit" label="Edit" icon="pi pi-pencil" />
+    </div>
+  </div>
+</form>

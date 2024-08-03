@@ -1,0 +1,33 @@
+.sider {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 70px);
+  // overflow-y: auto;
+  box-shadow: 3px 3px 5px rgba(187, 187, 187, 0.7);
+  border: 1px solid #ddd;
+}
+
+.inner-menu {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.footer-sidebar {
+  position: relative;
+  color: var(--color-three);
+  left: 5px;
+}
+
+.footer-sidebar div {
+  font-size: small;
+  margin-top: 5px;
+}
+
+.inner-drop.footer-sidebar div:first-child {
+  text-align: left;
+}
+
+.inner-drop.footer-sidebar div:last-child {
+  text-align: left;
+  margin-left: 13px; 
+}
