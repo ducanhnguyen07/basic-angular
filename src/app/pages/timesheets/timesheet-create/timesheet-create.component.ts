@@ -4,6 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { firstValueFrom } from 'rxjs';
+import { format } from 'node:path';
 
 @Component({
   selector: 'app-timesheet-create',
@@ -16,6 +17,7 @@ export class TimesheetCreateComponent {
     taskId: '',
     note: '',
     workingTime: 0,
+    logTime: new Date(),
   };
   isSuccess: boolean = true;
 
@@ -32,6 +34,7 @@ export class TimesheetCreateComponent {
     private config: DynamicDialogConfig
   ) {
     this.callback = this.config.data?.callback;
+    this.newTimesheet.logTime = this.config.data?.date;
   }
 
   ngOnInit() {

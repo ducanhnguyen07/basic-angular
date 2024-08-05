@@ -1,9 +1,11 @@
-<p-toast />
+<p-toast></p-toast>
+
+<!-- <div class="col-md-4">
+  <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+</div> -->
 
 <ng-template #customCellTemplate let-day="day" let-locale="locale">
-  <div class="cal-cell-top"
-    [ngClass]="{'off-sunday': isSunday(day.date)}"
-  > 
+  <div class="cal-cell-top" [ngClass]="{ 'off-sunday': isSunday(day.date) }">
     <div>
       <span class="cal-day-number">{{
         day.date | calendarDate : "monthViewDayNumber" : locale
@@ -12,18 +14,33 @@
 
     <ng-container *ngIf="isSunday(day.date)">
       <div>
-        <p-tag value="Off" severity="danger" [rounded]="true"/>
+        <p-tag value="Off" severity="danger" [rounded]="true" />
       </div>
     </ng-container>
 
-    <ng-container *ngFor="let request of requestsPerMonth">      
+    <ng-container *ngFor="let request of requestsPerMonth">
       <ng-container *ngIf="isSameDay(request.requestDay, day.date)">
         <div>
-          <p-tag [value]="request.type" severity="danger" [rounded]="true" *ngIf="request.type === 'Off'" />
+          <p-tag
+            [value]="request.type"
+            severity="danger"
+            [rounded]="true"
+            *ngIf="request.type === 'Off'"
+          />
 
-          <p-tag [value]="request.type + ': ' + request.time + 'h'" severity="warning" [rounded]="true" *ngIf="request.type === 'Late' || request.type === 'Early'" />
+          <p-tag
+            [value]="request.type + ': ' + request.time + 'h'"
+            severity="warning"
+            [rounded]="true"
+            *ngIf="request.type === 'Late' || request.type === 'Early'"
+          />
 
-          <p-tag [value]="request.type + ': ' + request.time + 'h'" severity="info" [rounded]="true" *ngIf="request.type === 'Remote' || request.type === 'Onsite'" />
+          <p-tag
+            [value]="request.type + ': ' + request.time + 'h'"
+            severity="info"
+            [rounded]="true"
+            *ngIf="request.type === 'Remote' || request.type === 'Onsite'"
+          />
 
           <ng-container [ngSwitch]="request.status">
             <span class="status-tag" *ngSwitchCase="'APPROVE'">Approved</span>
@@ -39,6 +56,13 @@
 </ng-template>
 
 <div class="card">
+  <p-dropdown
+    [options]="monthOfYear"
+    [(ngModel)]="currMonth"
+    (ngModelChange)="onMonthChange($event)"
+  ></p-dropdown>
+  <br />
+  <br />
   <mwl-calendar-month-view
     [viewDate]="viewDate"
     [events]="events"
@@ -80,15 +104,21 @@
           <ng-container [ngSwitch]="request.status">
             <p-badge
               *ngSwitchCase="'APPROVE'"
-              [value]="'Approved'"
+              value="Approved"
               severity="success"
-            />
+            ></p-badge>
+
             <p-badge
               *ngSwitchCase="'PENDING'"
-              [value]="'Pending'"
+              value="Pending"
               severity="info"
-            />
-            <p-badge *ngSwitchDefault [value]="'Rejected'" severity="danger" />
+            ></p-badge>
+
+            <p-badge
+              *ngSwitchDefault
+              value="Rejected"
+              severity="danger"
+            ></p-badge>
           </ng-container>
         </td>
       </tr>

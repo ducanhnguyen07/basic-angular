@@ -25,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
         headers: req.headers.set('Authorization', `Bearer ${token}`)
       });
     }
-    console.log('Token before refresh:', localStorage.getItem('accessToken'));
+    // console.log('Token before refresh:', localStorage.getItem('accessToken'));
 
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -37,7 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 headers: req.headers.set('Authorization', `Bearer ${newToken}`)
               });
 
-              console.log('New token after refresh:', localStorage.getItem('accessToken'));
+              // console.log('New token after refresh:', localStorage.getItem('accessToken'));
               return next.handle(newAuthReq);
             }),
             catchError(err => {

@@ -1,38 +1,77 @@
 <p-toast />
 
-<p-panel header="{{ currDate }}">
+<div class="card">
+  <div class="head-ts">
+    {{ currDate | date : "yyyy/MM/dd" }}
+  </div>
+  <br />
   <div class="ts-wrapper">
     <div class="mat-wrapper">
-      <mat-tab-group>
-        <mat-tab *ngFor="let day of dayOfWeek" [label]="day.day">
-          <div class="mat-content">
-            <div class="mat-content-text">
-              Content for {{ day.day }} (Day {{ day.dayNum }})
+      <mat-tab-group (selectedIndexChange)="onTabChange($event)">
+        <mat-tab *ngFor="let day of dayOfWeek">
+          <ng-template mat-tab-label>
+            <div class="day-label">
+              <span>{{ day.day }}</span>
+              <br />
+              <br />
+              <span *ngIf="day.workingTime != '00:00'">{{
+                day.workingTime
+              }}</span>
             </div>
+          </ng-template>
+          <ng-container *ngFor="let timesheet of data">
+            <div
+              class="mat-content"
+              *ngIf="isSameDay(timesheet.timesheet.logTime, currDate)"
+            >
+              <div class="mat-content-text">
+                <b>[{{ timesheet.project.name }}]</b>
+                {{ timesheet.task.name }} -
+                <b style="color: #3186ff">Official</b>
+                <br />
+                {{ timesheet.timesheet.note }}
+              </div>
 
-            <div class="mat-wt-tag">
-              <div class="mat-wt-child">08:00</div>
-              <div class="mat-wt-child">
-                <p-badge [value]="'Pending'" severity="secondary" />
+              <div class="mat-wt-tag">
+                <div class="mat-wt-child">
+                  0{{ timesheet.timesheet.workingTime }}:00
+                </div>
+                <div class="mat-wt-child">
+                  <p-badge
+                    *ngIf="timesheet.timesheet.status == 'PENDING'"
+                    value="Pending"
+                    severity="secondary"
+                  />
+                  <p-badge
+                    *ngIf="timesheet.timesheet.status == 'APPROVE'"
+                    value="Approved"
+                    severity="success"
+                  />
+                  <p-badge
+                    *ngIf="timesheet.timesheet.status == 'REJECT'"
+                    value="Rejected"
+                    severity="danger"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div class="mat-btn">
-              <div class="mat-btn-child">
-                <i class="pi pi-pencil" style="font-size: 1.2rem"></i>
-              </div>
-              <div class="mat-btn-child">
-                <i class="pi pi-trash" style="font-size: 1.2rem"> </i>
+              <div class="mat-btn">
+                <div class="mat-btn-child">
+                  <i class="pi pi-pencil" style="font-size: 1.2rem"></i>
+                </div>
+                <div class="mat-btn-child">
+                  <i class="pi pi-trash" style="font-size: 1.2rem"> </i>
+                </div>
               </div>
             </div>
-          </div>
+          </ng-container>
           <div class="mat-body">
             <div>
               <p-button
                 icon="pi pi-plus"
                 size="small"
                 severity="success"
-                (click)="showDialog()"
+                (click)="showDialog(currDate)"
               />
             </div>
 
@@ -53,7 +92,7 @@
                 icon="pi pi-plus"
                 size="small"
                 severity="success"
-                (click)="showDialog()"
+                (click)="showDialog(currDate)"
               />
             </div>
 
@@ -69,38 +108,49 @@
       </mat-tab-group>
     </div>
   </div>
-</p-panel>
-<br />
+</div>
 
-<p-panel header="Summary">
+<div class="card">
+  <div class="head-sum">Summary</div>
+  <br />
   <p-table
     [value]="[workingTime]"
     styleClass="p-datatable-gridlines"
     [scrollable]="true"
-    class="some-custom-class-name"
+    class="wt-table"
   >
     <ng-template pTemplate="header">
       <tr>
         <th pFrozenColumn>Total</th>
         <th pFrozenColumn>Open Talk</th>
-        <th *ngFor="let item of monthVal" style="max-width: 60px; text-align: center;" >
+        <th
+          *ngFor="let item of monthVal"
+          style="max-width: 60px; text-align: center"
+          [ngStyle]="{'color': item.dOW === 'Sat' || item.dOW === 'Sun' ? '#FF0000' : 'black'}"
+        >
           <div>{{ item.date }}</div>
           <div>{{ item.dOW }}</div>
         </th>
       </tr>
     </ng-template>
-    
-    <ng-template pTemplate="body" style="text-align: center;">
+
+    <ng-template pTemplate="body" style="text-align: center">
       <tr>
-        <td pFrozenColumn style="background-color: #A5CDE0;">{{ workingTime }}</td>
-        <td pFrozenColumn style="background-color: #A5CDE0;">0</td>
-        <td  *ngFor="let item of monthVal" style="text-align: center;"></td>
+        <td pFrozenColumn style="background-color: #a5cde0">
+          {{ workingTime }}
+        </td>
+        <td pFrozenColumn style="background-color: #a5cde0">0</td>
+        <td
+          *ngFor="let item of monthVal"
+          style="text-align: center"
+          [ngStyle]="{ 'background-color': item.dOW === 'Sat' || item.dOW === 'Sun' ? '#C3C3C3' : '#FDF7BB'}"
+        >
+          {{ getWorkingTimeByDay(item.date) }}
+        </td>
       </tr>
     </ng-template>
   </p-table>
-</p-panel>
-
-<br />
+</div>
 
 <div class="card">
   <p-table
@@ -126,6 +176,7 @@
         <th pSortableColumn="project.name">
           Project <p-sortIcon field="project.name" />
         </th>
+        <th>Logging</th>
         <th>Action</th>
       </tr>
     </ng-template>
@@ -150,6 +201,7 @@
         </td>
         <td>{{ data.task.name }}</td>
         <td>{{ data.project.name }}</td>
+        <td>{{ data.timesheet.logTime }}</td>
         <td>
           <p-button
             *ngIf="data.timesheet.status === 'APPROVE'"

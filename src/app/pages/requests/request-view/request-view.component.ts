@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, SimpleChanges } from '@angular/core';
 import { RequestViewService } from './request-view.service';
 import { RequestCreateComponent } from '../request-create/request-create.component';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -23,6 +23,21 @@ export class RequestViewComponent {
 
   events: CalendarEvent[] = [];
 
+  monthOfYear = [
+    { label: 'January', value: 1 },
+    { label: 'February', value: 2 },
+    { label: 'March', value: 3 },
+    { label: 'April', value: 4 },
+    { label: 'May', value: 5 },
+    { label: 'June', value: 6 },
+    { label: 'July', value: 7 },
+    { label: 'August', value: 8 },
+    { label: 'September', value: 9 },
+    { label: 'October', value: 10 },
+    { label: 'November', value: 11 },
+    { label: 'December', value: 12 },
+  ];
+
   currMonth: number = new Date().getMonth() + 1;
   requestsPerMonth: any[] = [];
 
@@ -37,7 +52,7 @@ export class RequestViewComponent {
   }
 
   handleClick(date: Date) {
-    if (this.isSunday(date) || !this.isSameMonth(date)) {
+    if (this.isSunday(date)) {
       return;
     }
     this.dialogService.open(RequestCreateComponent, {
@@ -52,6 +67,7 @@ export class RequestViewComponent {
   }
 
   getOwnRequest() {
+    this.requestsPerMonth = [];
     this.requestViewService.getOwnRequest().subscribe((res: any) => {
       this.data = res.data.responseRequestList;
       for (const req of this.data) {
@@ -60,14 +76,36 @@ export class RequestViewComponent {
         const reqMonth = parseInt(parts[1], 10);
 
         req.type = req.type[0].toUpperCase() + req.type.toLowerCase().slice(1);
-
         if(reqMonth === this.currMonth) {
           this.requestsPerMonth.push(req);
         }
       }
-
       this.user = res.data.responseUser;
     });
+  }
+
+  onMonthChange(newMonth: number) {
+    const newDate = new Date(this.viewDate);
+    newDate.setMonth(newMonth - 1);
+
+    this.viewDate = newDate;
+    this.currMonth = newMonth;
+    
+    this.getRequestListInMonth();
+  }
+
+  getRequestListInMonth() {
+    this.requestsPerMonth = [];
+    for (const req of this.data) {
+      const parts = req.requestDay.split('/');
+      const reqMonth = parseInt(parts[1], 10);
+
+      req.type = req.type[0].toUpperCase() + req.type.toLowerCase().slice(1);
+
+      if(reqMonth === this.currMonth) {
+        this.requestsPerMonth.push(req);
+      }
+    }
   }
 
   showToast(isSuccess: boolean) {
@@ -97,7 +135,7 @@ export class RequestViewComponent {
     const cmpMonth = parseInt(parts[1], 10);
 
     const dayOfWeek = date.getDay();
-    return cmpMonth === this.currMonth && dayOfWeek === 0;
+    return dayOfWeek === 0;
   }
 
   isSameMonth(date: Date) {

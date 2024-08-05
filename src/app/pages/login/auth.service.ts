@@ -75,6 +75,7 @@ export class AuthService {
   logout() {
     this.isLoggedInSubject.next(false);
 
+    this.cookieService.delete('refreshToken');
     localStorage.removeItem('user_id');
     localStorage.removeItem('user_email');
     localStorage.removeItem('accessToken');
