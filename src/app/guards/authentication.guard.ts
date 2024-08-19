@@ -29,8 +29,13 @@ export class IsAuthenticatedGuard implements CanActivate {
     | UrlTree {
     return this.authService.isLoggedIn.pipe(
       tap((isLoggedIn) => {
-        if (!isLoggedIn) {
+        const isValid2FA = localStorage.getItem('is2FAValidated');
+        if (isLoggedIn && isValid2FA != null) {
+          return true;
+        } else {
+          localStorage.removeItem('accessToken');
           this.router.navigate(['/login']);
+          return false;
         }
       })
     );

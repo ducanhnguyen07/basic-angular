@@ -14,6 +14,8 @@ import { AuthService } from '../../login/auth.service';
 export class MyInfoComponent {
   myInfo: any = {};
 
+  qrCodeDataUrl: string = "";
+
   constructor(
     private myInfoService: MyInfoService,
     private router: Router,
@@ -23,6 +25,9 @@ export class MyInfoComponent {
 
   ngOnInit(): void {
     this.handleGetInfo();
+    // this.myInfoService.handle2FASecret().subscribe((res: any) => {
+    //   this.qrCodeDataUrl = res.data;
+    // });
   }
   
   handleGetInfo() {

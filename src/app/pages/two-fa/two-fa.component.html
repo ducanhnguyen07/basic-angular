@@ -1,0 +1,33 @@
+<p-toast />
+<div class="wrapper">
+  <div class="lbl-2fa">Enter password to turn on 2FA Mode</div>
+  <div>
+    <div class="el-2fa">
+      <p-floatLabel>
+        <p-password
+          [(ngModel)]="password"
+          name="password"
+          aria-describedby="password-help"
+          [toggleMask]="true"
+          required
+        />
+      </p-floatLabel>
+    </div>
+
+    <div class="el-2fa">
+      <p-button label="Verify" size="small" (onClick)="handle2FA()" />
+    </div>
+  </div>
+  <p-dialog
+    header="Two Factor Authentication"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '30vw' }"
+  >
+    <div>Scan QrCode by Google Authentication and remember your Secret Key</div>
+    <div class="dialog-2fa">
+      <img [src]="qrCode" alt="QR Code">
+    </div>
+    <div class="dialog-2fa-content">{{ otp2FA }}</div>
+  </p-dialog>
+</div>

@@ -85,6 +85,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CalendarModule as AngularCalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { InputOtpModule } from 'primeng/inputotp';
+import { RegisterComponent } from './pages/register/register.component';
+import { TwoFaComponent } from './pages/two-fa/two-fa.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +117,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     RequestViewComponent,
     RequestCreateComponent,
     AllRequestComponent,
+    RegisterComponent,
+    TwoFaComponent,
   ],
   imports: [
     BrowserModule,
@@ -132,6 +137,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     BrowserAnimationsModule,
     MatIconModule,
     MatTabsModule,
+    InputOtpModule,
     PanelModule,
     CommonModule,
     MatNativeDateModule,

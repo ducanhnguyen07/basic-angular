@@ -8,6 +8,27 @@
   font-size: x-large;
   font-weight: 600;
   color: #555555;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+::ng-deep .p-button-label {
+  font-weight: 550;
+  font-size: small;
+}
+
+.btn-ci {
+  display: flex;
+  justify-content: center;
+}
+
+::ng-deep .p-inputotp {
+  justify-content: center;
+}
+
+::ng-deep .p-inputotp {
+  gap: 1rem;
 }
 
 .head-sum {
@@ -25,6 +46,7 @@
 .wt-tag {
   color: var(--color-three);
 }
+
 
 .ts-wrapper {
   display: flex;
@@ -68,6 +90,7 @@
 
 ::ng-deep .mat-mdc-tab-body-content .mat-content .mat-wt-tag .mat-wt-child {
   padding: 0px 20px;
+  color: #7A7A7A;
 }
 
 ::ng-deep .mat-mdc-tab-body-content .mat-content .mat-wt-tag .mat-wt-child .p-badge {

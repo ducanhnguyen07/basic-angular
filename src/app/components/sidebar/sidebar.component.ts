@@ -102,6 +102,14 @@ export class SidebarComponent {
       routerLink: 'users/read',
       permission: 'user_read',
     },
+    {
+      label: '2FA',
+      data: 'Pictures folder',
+      expandedIcon: 'pi pi-verified',
+      collapsedIcon: 'pi pi-verified',
+      routerLink: 'two-fa',
+      permission: 'user_read_own_timesheet',
+    },
   ];
 
   constructor(

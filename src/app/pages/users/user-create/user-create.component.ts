@@ -40,7 +40,6 @@ export class UserCreateComponent {
     if (this.newUser.branch == null || this.newUser.role == null) {
       return;
     }
-    console.log(this.newUser)
     
     this.userCreateService.createUser(this.newUser).subscribe(
       (response) => {

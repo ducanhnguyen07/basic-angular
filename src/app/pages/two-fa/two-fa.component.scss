@@ -1,0 +1,29 @@
+.wrapper {
+  position: relative;
+  top: 20px;
+  left: 20px;
+}
+
+.lbl-2fa {
+  margin-bottom: 15px;
+  font-size: large;
+  font-weight: 500;
+  color: var(--color-three);
+}
+
+.el-2fa {
+  margin-bottom: 10px;
+}
+
+.dialog-2fa {
+  position: relative;
+  left: 50px;
+}
+
+.dialog-2fa-content {
+  position: relative;
+  left: 75px;
+  color: var(--color-three);
+  font-weight: 500;
+  
+}

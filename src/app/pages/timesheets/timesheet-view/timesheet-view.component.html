@@ -2,12 +2,42 @@
 
 <div class="card">
   <div class="head-ts">
-    {{ currDate | date : "yyyy/MM/dd" }}
+    <div>{{ currDate | date : "yyyy/MM/dd" }}</div>
+    <div>
+      <p-button
+        class="head-ci"
+        label="Check In Today"
+        size="small"
+        (onClick)="showCheckInDialog()"
+      />
+      <p-dialog
+        header="Check In"
+        [modal]="true"
+        [(visible)]="visible"
+        [style]="{ width: '25vw' }"
+      >
+        <div>
+          <p-inputOtp [(ngModel)]="checkInToken" />
+        </div>
+        <br />
+        <div class="btn-ci">
+          <p-button
+            icon="pi pi-check"
+            label="Submit"
+            (onClick)="subCheckIn()"
+          />
+        </div>
+      </p-dialog>
+    </div>
   </div>
+
   <br />
   <div class="ts-wrapper">
     <div class="mat-wrapper">
-      <mat-tab-group (selectedIndexChange)="onTabChange($event)">
+      <mat-tab-group
+        [selectedIndex]="selectedIndex"
+        (selectedIndexChange)="onTabChange($event)"
+      >
         <mat-tab *ngFor="let day of dayOfWeek">
           <ng-template mat-tab-label>
             <div class="day-label">
@@ -126,7 +156,10 @@
         <th
           *ngFor="let item of monthVal"
           style="max-width: 60px; text-align: center"
-          [ngStyle]="{'color': item.dOW === 'Sat' || item.dOW === 'Sun' ? '#FF0000' : 'black'}"
+          [ngStyle]="{
+            color:
+              item.dOW === 'Sat' || item.dOW === 'Sun' ? '#FF0000' : 'black'
+          }"
         >
           <div>{{ item.date }}</div>
           <div>{{ item.dOW }}</div>
@@ -143,7 +176,10 @@
         <td
           *ngFor="let item of monthVal"
           style="text-align: center"
-          [ngStyle]="{ 'background-color': item.dOW === 'Sat' || item.dOW === 'Sun' ? '#C3C3C3' : '#FDF7BB'}"
+          [ngStyle]="{
+            'background-color':
+              item.dOW === 'Sat' || item.dOW === 'Sun' ? '#C3C3C3' : '#FDF7BB'
+          }"
         >
           {{ getWorkingTimeByDay(item.date) }}
         </td>

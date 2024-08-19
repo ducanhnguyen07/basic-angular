@@ -1,3 +1,4 @@
+<p-toast />
 <div class="grid">
   <div class="col-4">
     <div class="card">
@@ -28,13 +29,160 @@
           />
           <label for="pw">Password</label>
         </p-floatLabel>
+
         <br />
         <br />
 
         <div>
-          <p-button label="Login" type="submit" />
+          <p-button label="Login" type="submit" size="small" />
+        </div>
+        <br />
+        <div>
+          <p-button
+            class="head-ci"
+            label="Register"
+            size="small"
+            (onClick)="showCheckInDialog()"
+          />
         </div>
       </form>
+      <div>
+        <p-dialog [(visible)]="visible2FA" modal="true" header="Verify Your Account" [style]="{ width: '25vw' }">
+          <p>Your account is not activated yet. Please verify your account to continue.</p>
+          <div class="p-fluid">
+            <input
+              pInputText
+              [(ngModel)]="verifyOtp"
+              [value]="verifyOtp"
+              name="note"
+              type="text"
+            />
+          </div>
+          <br />
+          <p-button type="button" label="Verify 2FA OTP" (onClick)="handleVerify2FA()" class="p-fluid"/>
+        </p-dialog>
+      </div>
+      <div>
+        <p-dialog
+          header="Register"
+          [modal]="true"
+          [(visible)]="visible"
+          [style]="{ width: '25vw' }"
+        >
+          <br />
+          <div class="p-fluid">
+            <p-floatLabel>
+              <input
+                pInputText
+                [(ngModel)]="newUser.name"
+                [value]="newUser.name"
+                name="note"
+                type="text"
+              />
+              <label for="name" class="sp-name">Name</label>
+            </p-floatLabel>
+          </div>
+          <br />
+
+          <div class="p-fluid">
+            <p-floatLabel>
+              <input
+                pInputText
+                [(ngModel)]="newUser.email"
+                [value]="newUser.email"
+                name="email"
+                type="text"
+                aria-describedby="email-help"
+                required
+              />
+              <label for="email" class="sp-name">Email</label>
+            </p-floatLabel>
+          </div>
+          <br />
+
+          <div class="p-fluid">
+            <p-floatLabel>
+              <p-password
+                [(ngModel)]="newUser.password"
+                name="password"
+                aria-describedby="password-help"
+                [toggleMask]="true"
+                [feedback]="true"
+                required
+              />
+              <label for="password">Password</label>
+            </p-floatLabel>
+          </div>
+          <br />
+
+          <div class="p-fluid">
+            <p-floatLabel>
+              <input
+                pInputText
+                [(ngModel)]="newUser.address"
+                [value]="newUser.address"
+                name="address"
+                type="text"
+                aria-describedby="email-help"
+                required
+              />
+              <label for="address" class="address">Address</label>
+            </p-floatLabel>
+          </div>
+          <br />
+
+          <div class="p-fluid">
+            <div class="btn-rad">
+              <p-radioButton
+                name="gender"
+                value="male"
+                [(ngModel)]="newUser.gender"
+                [ariaChecked]="true"
+                inputId="ingredient1"
+              />
+              <label for="ingredient2" class="ml-2"> Male </label>
+            </div>
+
+            <div class="btn-rad">
+              <p-radioButton
+                name="gender"
+                value="female"
+                [(ngModel)]="newUser.gender"
+                inputId="ingredient2"
+              />
+              <label for="ingredient2" class="ml-2"> Female </label>
+            </div>
+          </div>
+
+          <br />
+
+          <div class="p-fluid">
+            <p-dropdown
+              [options]="branchList"
+              [formControl]="branchControl"
+              [(ngModel)]="newUser.branch"
+              placeholder="Select a branch"
+              optionLabel="name"
+              optionValue="id"
+              appendTo="body"
+              required
+            >
+              <ng-template let-branch pTemplate="item">
+                {{ branch.name }}
+              </ng-template>
+            </p-dropdown>
+          </div>
+          <br />
+
+          <div class="p-fluid">
+            <p-button
+              (onClick)="registerNewUser()"
+              label="Register"
+              size="small"
+            />
+          </div>
+        </p-dialog>
+      </div>
     </div>
   </div>
 </div>

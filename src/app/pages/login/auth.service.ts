@@ -10,11 +10,16 @@ import { environment } from '../../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
+import { response } from 'express';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   url: string = `${environment.apiUrl}/auth/login`;
   refreshUrl: string = `${environment.apiUrl}/auth/refresh`;
+  registerUrl: string = `${environment.apiUrl}/auth/register`;
+  verify2FAUrl: string = `${environment.apiUrl}/auth/login/2fa`;
+
   private jwt: JwtHelperService;
 
   constructor(
@@ -47,13 +52,23 @@ export class AuthService {
       .pipe(
         tap((res: any) => {
           const objJsonRes = JSON.parse(res);
+          const decodedToken = jwtDecode<{
+            "sub": string,
+            "iss": string,
+            "id": string,
+            "email": string,
+            "roles": number,
+            "iat": number,
+            "exp": number,
+            "isActive": boolean
+          }>(objJsonRes.data.accessToken);
 
+          localStorage.setItem('accessToken', objJsonRes.data.accessToken);
           const expiresAt = new Date();
           expiresAt.setTime(expiresAt.getTime() + (7 * 24 * 60 * 60 * 1000));
           this.cookieService.set('refreshToken', objJsonRes.data.refreshToken, expiresAt);
 
-          this.isLoggedInSubject.next(true);
-          // save data
+          this.isLoggedInSubject.next(!decodedToken.isActive);
         })
       );
   }
@@ -80,6 +95,7 @@ export class AuthService {
     localStorage.removeItem('user_email');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('is2FAValidated');
   }
 
   refreshAccessToken(): Observable<any> {
@@ -90,11 +106,6 @@ export class AuthService {
           const newAccessToken = response.data['accessToken'];
           localStorage.setItem('accessToken', newAccessToken);
 
-          const expiresAt = new Date();
-          expiresAt.setTime(expiresAt.getTime() + (7 * 24 * 60 * 60 * 1000));
-
-          this.cookieService.set('refreshToken', response.data['refreshToken'], expiresAt);
-
           this.isLoggedInSubject.next(true);
         },
         () => {
@@ -103,4 +114,22 @@ export class AuthService {
       )
     );
   }
+
+  registerNewUser(newUser: any): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post<any>(this.registerUrl, JSON.stringify(newUser), { headers }).pipe();
+  }
+
+  handleLogin2FA(obj2FA: any): Observable<any> {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this._http.post<any>(this.verify2FAUrl, JSON.stringify(obj2FA), { headers }).pipe(
+      tap((res) => {
+        if (res.data.isLogin) {
+          localStorage.setItem('is2FAValidated', 'true');
+
+          this.isLoggedInSubject.next(true);
+        }
+      })
+    );
+  }  
 }

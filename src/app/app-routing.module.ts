@@ -19,9 +19,12 @@ import { RequestViewComponent } from './pages/requests/request-view/request-view
 import { AllRequestComponent } from './pages/requests/all-request/all-request.component';
 import { IsAuthenticatedGuard } from './guards/authentication.guard';
 import { PermissionGuard } from './guards/permission.guard';
+import { RegisterComponent } from './pages/register/register.component';
+import { TwoFaComponent } from './pages/two-fa/two-fa.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   {
     path: 'not-found',
     component: NotFoundComponent,
@@ -129,6 +132,12 @@ const routes: Routes = [
         component: PermissionComponent,
         canActivate: [PermissionGuard],
         data: { permission: 'role_read' },
+      },
+      {
+        path: 'two-fa',
+        component: TwoFaComponent,
+        canActivate: [PermissionGuard],
+        data: { permission: 'user_read_own_timesheet' },
       },
     ],
   },

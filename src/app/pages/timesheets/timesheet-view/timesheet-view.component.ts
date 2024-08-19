@@ -21,6 +21,7 @@ import {
 export class TimesheetViewComponent {
   data: Array<any> = [];
   workingTime: number = 0;
+  checkInToken: string = '';
 
   ref: DynamicDialogRef | undefined;
 
@@ -45,6 +46,9 @@ export class TimesheetViewComponent {
   ];
 
   monthVal: { date: number; dOW: string }[] = [];
+  selectedIndex: number = 0;
+
+  visible: boolean = false;
 
   constructor(
     private router: Router,
@@ -62,12 +66,11 @@ export class TimesheetViewComponent {
     });
 
     for (let i = 2; i <= getDaysInMonth(this.currDate); i++) {
-      const dOW: string = this.dayOfWeek[(firstIdx + i - 1) % 7].day.slice(
-        0,
-        3
-      );
+      const dOW: string = this.dayOfWeek[(firstIdx + i - 1) % 7].day.slice(0, 3);
       this.monthVal.push({ date: i, dOW: dOW });
     }
+
+    this.selectedIndex = this.currDate.getDay() - 1;
   }
 
   ngOnInit() {
@@ -80,28 +83,7 @@ export class TimesheetViewComponent {
 
   onTabChange(event: any) {
     if (event >= 0 && event < 7) this.currDate = this.dayOfWeek[event]['date'];
-
-    this.calculateWorkingTimePerDay();
   }
-
-  // ngOnChanges(changes: SimpleChanges) {
-  //   if (changes['viewDate']) {
-  //     this.updateDaysOfWeek();
-  //   }
-  // }
-
-  // updateDaysOfWeek() {
-  //   const startOfWeekDate = startOfWeek(this.viewDate, { weekStartsOn: 1 });
-  //   this.dayOfWeek = [
-  //     { day: "Monday", dayNum: 0, date: addDays(startOfWeekDate, 0) },
-  //     { day: "Tuesday", dayNum: 1, date: addDays(startOfWeekDate, 1) },
-  //     { day: "Wednesday", dayNum: 2, date: addDays(startOfWeekDate, 2) },
-  //     { day: "Thursday", dayNum: 3, date: addDays(startOfWeekDate, 3) },
-  //     { day: "Friday", dayNum: 4, date: addDays(startOfWeekDate, 4) },
-  //     { day: "Saturday", dayNum: 5, date: addDays(startOfWeekDate, 5) },
-  //     { day: "Sunday", dayNum: 6, date: addDays(startOfWeekDate, 6) },
-  //   ];
-  // }
 
   getOwnTimesheet() {
     this.timesheetViewService.getOwnTimesheet().subscribe((res: any) => {
@@ -151,18 +133,34 @@ export class TimesheetViewComponent {
     });
   }
 
+  showCheckInDialog() {
+    this.visible = true;
+    this.checkInToken = '';
+  }
+
+  subCheckIn() {
+    this.visible = false;
+    const objCheckIn = { checkInToken: this.checkInToken };
+    
+    this.timesheetViewService.handleCheckIn(objCheckIn).subscribe(
+      (res: any) => {
+        this.showToast(res.data.status);
+      }
+    );
+  }
+
   showToast(isSuccess: boolean) {
     if (isSuccess) {
       this.messageService.add({
         severity: 'success',
         summary: 'Success',
-        detail: 'Create new timesheet success!',
+        detail: 'Success',
       });
     } else {
       this.messageService.add({
         severity: 'error',
         summary: 'Error',
-        detail: 'Create new timesheet fail!',
+        detail: 'Fail!',
       });
     }
   }

@@ -51,12 +51,12 @@
     </div>
     <br />
     <div class="p-child ">
-      <label for="name">Address</label>
+      <label for="address">Address</label>
       <input
         pInputText
         [(ngModel)]="newUser.address"
         [value]="newUser.address"
-        name="email"
+        name="address"
         type="text"
         aria-describedby="email-help"
         required
@@ -96,7 +96,7 @@
 
   <div class="p-fluid p-par">
     <div class="p-fluid p-child">
-      <label for="branchList">Project</label>
+      <label for="branchList">Branch</label>
       <p-dropdown
         [options]="branchList"
         [formControl]="branchControl"
