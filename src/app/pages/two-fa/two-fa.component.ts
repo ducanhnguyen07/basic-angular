@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TwoFaService } from './two-fa.service';
 import { MessageService } from 'primeng/api';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-two-fa',
@@ -13,13 +14,31 @@ export class TwoFaComponent {
   visible: boolean = false;
   qrCode: string = '';
   otp2FA: string = '';
+  isActive: boolean = false;
 
   constructor(
     private twoFaService: TwoFaService,
     private messageService: MessageService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const accessToken = localStorage.getItem('accessToken');
+    if(accessToken != null) {
+      const decodedToken = jwtDecode<{
+        "sub": string,
+        "iss": string,
+        "id": string,
+        "email": string,
+        "roles": number,
+        "iat": number,
+        "exp": number,
+        "isActive": boolean
+      }>(accessToken);
+      
+      this.isActive = decodedToken.isActive;
+    }
+    
+  }
 
   handle2FA() {
     this.twoFaService.handle2fa({ password: this.password }).subscribe(

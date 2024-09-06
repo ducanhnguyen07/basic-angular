@@ -118,7 +118,16 @@ export class TimesheetViewComponent {
   }
 
   editTimesheet(timesheetId: string) {
-    this.router.navigate(['/timesheets/edit', timesheetId]);
+    this.dialogService.open(TimesheetCreateComponent, {
+      header: 'Edit timesheet',
+      width: '30vw',
+      draggable: true,
+      data: {
+        callback: (isSuccess: boolean) => this.showToast(isSuccess),
+        isEdit: true,
+        timesheetId: timesheetId
+      }
+    });
   }
 
   showDialog(date: Date) {
@@ -129,6 +138,7 @@ export class TimesheetViewComponent {
       data: {
         callback: (isSuccess: boolean) => this.showToast(isSuccess),
         date: date,
+        isEdit: false,
       },
     });
   }
@@ -144,6 +154,7 @@ export class TimesheetViewComponent {
     
     this.timesheetViewService.handleCheckIn(objCheckIn).subscribe(
       (res: any) => {
+        console.log(res.data.status)
         this.showToast(res.data.status);
       }
     );

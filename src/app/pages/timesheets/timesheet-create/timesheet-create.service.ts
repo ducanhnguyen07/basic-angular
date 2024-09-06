@@ -7,6 +7,7 @@ import { environment } from "../../../../environments/environment";
 export class TimesheetCreateService {
   url: string = `${environment.apiUrl}/timesheets/create`;
   urlTaskList: string = `${environment.apiUrl}/tasks/own-task`;
+  urlGetTimesheet: string = `${environment.apiUrl}/timesheets/`;
 
   constructor(
     private _http: HttpClient,
@@ -19,5 +20,9 @@ export class TimesheetCreateService {
 
   getAllTask(): Observable<any> {
     return this._http.get<any>(this.urlTaskList).pipe();
+  }
+
+  getTimesheet(id: string): Observable<any> {
+    return this._http.get<any>(this.urlGetTimesheet + id).pipe();
   }
 }

@@ -74,6 +74,7 @@
       type="submit"
       label="Create new request"
       icon="pi pi-check"
+      [disabled]="currDate > newRequest.requestDay"
     />
   </div>
 </form>

@@ -1,5 +1,5 @@
 <p-toast />
-<div class="wrapper">
+<div class="wrapper" *ngIf="!isActive else turnedOnTemplate">
   <div class="lbl-2fa">Enter password to turn on 2FA Mode</div>
   <div>
     <div class="el-2fa">
@@ -9,6 +9,7 @@
           name="password"
           aria-describedby="password-help"
           [toggleMask]="true"
+          [feedback]="false"
           required
         />
       </p-floatLabel>
@@ -31,3 +32,7 @@
     <div class="dialog-2fa-content">{{ otp2FA }}</div>
   </p-dialog>
 </div>
+
+<ng-template #turnedOnTemplate>
+  <div class="lbl-2fa">You turned on 2FA mode</div>
+</ng-template>

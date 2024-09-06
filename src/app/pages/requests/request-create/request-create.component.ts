@@ -10,6 +10,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 })
 export class RequestCreateComponent {
   objType: string = "";
+  currDate: Date = new Date();
   requestType: Array<string> = [
     'OFF',
     'REMOTE',

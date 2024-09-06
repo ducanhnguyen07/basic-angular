@@ -6,7 +6,7 @@
     <p-dropdown
       [options]="taskList"
       [formControl]="taskControl"
-      [(ngModel)]="newTimesheet.taskId"
+      [(ngModel)]="editTaskId"
       placeholder="Select a Task"
       optionLabel="name"
       optionValue="id"
@@ -14,7 +14,8 @@
       required
     >
       <ng-template let-task pTemplate="item">
-        <b>[{{ task.project.name }}]</b> {{ task.name }}
+        <div *ngIf="!isEdit"><b>[{{ task.project.name }}]</b> {{ task.name }}</div>
+        <div *ngIf="isEdit"><b>[{{ task.project.name }}]</b> {{ task.name }}</div>
       </ng-template>
     </p-dropdown>
   </div>
@@ -29,6 +30,15 @@
         [value]="newTimesheet.note"
         name="note"
         type="text"
+        *ngIf="!isEdit"
+      />
+      <input
+        pInputText
+        [(ngModel)]="editTimesheetObject.note"
+        [value]="editTimesheetObject.note"
+        name="note"
+        type="text"
+        *ngIf="isEdit"
       />
       <label for="note">Note</label>
     </p-floatLabel>
@@ -46,6 +56,17 @@
         name="workingTime"
         [min]="0"
         [max]="24"
+        *ngIf="!isEdit"
+      />
+      <p-inputNumber
+        [(ngModel)]="editTimesheetObject.workingTime"
+        placeholder=""
+        [showButtons]="true"
+        inputId="workingTime"
+        name="workingTime"
+        [min]="0"
+        [max]="24"
+        *ngIf="isEdit"
       />
       <label for="workingTime">WorkingTime*</label>
     </p-floatLabel>
@@ -54,6 +75,7 @@
   <br />
 
   <div class="btn-sub">
-    <p-button class="p-fluid" type="submit" label="Create new timesheet" icon="pi pi-check" />
+    <p-button class="p-fluid" type="submit" label="Create new timesheet" icon="pi pi-check" *ngIf="!isEdit" />
+    <p-button class="p-fluid" type="submit" label="Edit timesheet" icon="pi pi-check" *ngIf="isEdit" />
   </div>
 </form>
